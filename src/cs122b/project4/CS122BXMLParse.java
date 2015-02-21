@@ -88,11 +88,11 @@ public class CS122BXMLParse {
                     else if (n.getNodeName().equals("year")) {
                         doc.setYear(tempString);
                     }
-                    else if (n.getNodeName().equals("journal")) {
-                        doc.setJournal(tempString);
+                    else if (n.getNodeName().equals("volume")) {
+                        doc.setVolume(tempString);
                     }
-                    else if (n.getNodeName().equals("month")) {
-                        doc.setMonth(tempString);
+                    else if (n.getNodeName().equals("number")) {
+                        doc.setNumber(tempString);
                     }
                     else if (n.getNodeName().equals("url")) {
                         doc.setUrl(tempString);
@@ -106,11 +106,14 @@ public class CS122BXMLParse {
                     else if (n.getNodeName().equals("cite")) {
                         doc.setCite(tempString);
                     }
-                    else if (n.getNodeName().equals("school")) {
-                        doc.setSchool(tempString);
+                    else if (n.getNodeName().equals("crossref")) {
+                        doc.setCrossref(tempString);
                     }
-                    else if (n.getNodeName().equals("author")) {
-                        doc.addAuthor(n.getTextContent().trim());
+                    else if (n.getNodeName().equals("isbn")) {
+                        doc.setIsbn(tempString);
+                    }
+                    else if (n.getNodeName().equals("series")) {
+                        doc.setSeries(tempString);
                     }
                     else if (n.getNodeName().equals("editor")) {
                         String e = tempString;
@@ -120,15 +123,19 @@ public class CS122BXMLParse {
                         String p = tempString;
                         doc.setPublisher(p);
                     }
-                    else if (n.getNodeName().equals("isbn")) {
-                        doc.setIsbn(tempString);
+                    else if (n.getNodeName().equals("school")) {
+                        doc.setSchool(tempString);
                     }
-                    else if (n.getNodeName().equals("series")) {
-                        doc.setSeries(tempString);
+                    else if (n.getNodeName().equals("journal")) {
+                        doc.setJournal(tempString);
                     }
-                    else if (n.getNodeName().equals("number")) {
-                        doc.setNumber(tempString);
+                    else if (n.getNodeName().equals("month")) {
+                        doc.setMonth(tempString);
                     }
+                    else if (n.getNodeName().equals("author")) {
+                        doc.addAuthor(n.getTextContent().trim());
+                    }
+
                 }
             }
         }
