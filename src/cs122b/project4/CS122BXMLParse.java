@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.concurrent.TimeUnit;
+
 import javafx.util.Pair;
 import org.w3c.dom.*;
 import cs122b.models.*;
@@ -157,11 +159,17 @@ public class CS122BXMLParse {
 
 
     public void addDocuments(Collection<DPLPDocument> documents){
+        long startTime = System.currentTimeMillis();
+        long stopTime;
         CallableStatement cStatement = null;
         Connection con = null;
         String sql = "{call AddDocument(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}";
         try {
-            con = ConnectionManager.getConnection();
+            con = ConnectionManager.getSingleConnection();
+            if (con == null) {
+                System.out.println("Cannot get JDBC Connection. Operation terminating");
+                return;
+            }
             cStatement = con.prepareCall(sql);
             for (DPLPDocument doc: documents) {
                 if (StringUtil.isNullOrEmpty(doc.getTitle())) {
@@ -276,8 +284,14 @@ public class CS122BXMLParse {
             System.out.println("EXECUTING remaining Batch Update");
             int [] updateCounts = cStatement.executeBatch();
             System.out.println("FINISH UPDATING BATCH");
-        } catch (SQLException e) {
-            System.out.println("ERROR IN UPDATING");
+            stopTime = System.currentTimeMillis();
+            long runTime = stopTime - startTime;
+            System.out.println("Finished inserting in :" + TimeUnit.MILLISECONDS.toSeconds(runTime) + "seconds");
+        } catch (Exception e) {
+            stopTime = System.currentTimeMillis();
+            long runTime = stopTime - startTime;
+            System.out.println("Finished inserting in :" + TimeUnit.MILLISECONDS.toSeconds(runTime) + "seconds");
+            System.out.println("Some entries had errors in insertion");
             System.out.println(e.getMessage());
         } finally {
             try {
